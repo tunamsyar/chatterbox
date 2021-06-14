@@ -5,6 +5,8 @@ defmodule ChatterboxWeb.UserSocket do
   # channel "room:*", ChatterboxWeb.RoomChannel
   channel "chat_room:lobby", ChatterboxWeb.ChatRoomChannel
 
+  transport :websocket, Phoenix.Transports.WebSocket,
+    timeout: 45_000
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
   # verification, you can put default assigns into
