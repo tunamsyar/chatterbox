@@ -1,4 +1,4 @@
-<div id='message-list' class='row'>
+<%# <div id='message-list' class='row'>
 </div>
 
 <div class='row form-group'>
@@ -7,5 +7,17 @@
   </div>
   <div class='col-md-9'>
     <input type='text' id='message' class='form-control' placeholder='Message' />
+  </div>
+</div> %>
+
+
+<ul id='message-list' class='column' style='list-style: none; min-height:200px; padding: 10px;'></ul>
+
+<div class="row">
+  <div class="col-xs-3">
+    <input type="text" id="name" class="form-control" placeholder="Your Name" autofocus>
+  </div>
+  <div class="col-xs-9">
+    <input type="text" id="msg" class="form-control" placeholder="Your Message">
   </div>
 </div>

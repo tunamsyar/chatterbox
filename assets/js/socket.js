@@ -54,23 +54,51 @@ let socket = new Socket("/socket", { params: { token: window.userToken } })
 // Finally, connect to the socket:
 socket.connect()
 
-// Now that you are connected, you can join channels with a topic:
-let channel = socket.channel('chat_room:lobby', {});
-let list = $('#message-list');
-let message = $('#message');
-let name = $('#name');
 
-message.on('keypress', event => {
-  if (event.keyCode == 13) {
-    channel.push('new_message', { name: name.val(), message: message.val() });
-    message.val('');
+let channel = socket.channel('chat_room:lobby', {}); // connect to chat "room"
+
+channel.on('shout', function (payload) { // listen to the 'shout' event
+  let li = document.createElement("li"); // create new list item DOM element
+  let name = payload.name || 'guest';    // get name from payload or set default
+  li.innerHTML = '<b>' + name + '</b>: ' + payload.message; // set li contents
+  ul.appendChild(li);                    // append to list
+  ul.scrollTop = ul.scrollHeight;
+});
+
+channel.join(); // join the channel.
+
+let ul = document.getElementById('message-list');        // list of messages.
+let name = document.getElementById('name');          // name of message sender
+let msg = document.getElementById('msg');            // message input field
+
+// "listen" for the [Enter] keypress event to send a message:
+msg.addEventListener('keypress', function (event) {
+  if (event.keyCode == 13 && msg.value.length > 0) { // don't sent empty msg.
+    channel.push('shout', { // send the message to the server on "shout" channel
+      name: name.value,     // get value of "name" of person sending the message
+      message: msg.value    // get message text (value) from msg input field.
+    });
+    msg.value = '';         // reset the message input field for next message.
   }
 });
 
-channel.on('new_message', payload => {
-  list.append(`<b>${payload.name || 'Anonymous'}:</b> ${payload.message}<br>`);
-  list.prop({ scrollTop: list.prop('scrollHeight') });
-});
+// Now that you are connected, you can join channels with a topic:
+// let channel = socket.channel('chat_room:lobby', {});
+// let list = $('#message-list');
+// let message = $('#message');
+// let name = $('#name');
+
+// message.on('keypress', event => {
+//   if (event.keyCode == 13) {
+//     channel.push('new_message', { name: name.val(), message: message.val() });
+//     message.val('');
+//   }
+// });
+
+// channel.on('new_message', payload => {
+//   list.append(`<b>${payload.name || 'Anonymous'}:</b> ${payload.message}<br>`);
+//   list.prop({ scrollTop: list.prop('scrollHeight') });
+// });
 
 channel
   .join()
