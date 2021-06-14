@@ -3,6 +3,7 @@ defmodule ChatterboxWeb.UserSocket do
 
   ## Channels
   # channel "room:*", ChatterboxWeb.RoomChannel
+  channel "chat_room:lobby", ChatterboxWeb.ChatRoomChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

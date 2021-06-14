@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :chatterbox, Chatterbox.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "password",
   database: "chatterbox_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
